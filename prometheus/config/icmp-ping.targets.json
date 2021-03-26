@@ -1,0 +1,33 @@
+[
+  {
+    "targets": ["1.1.1.1", "1.0.0.1"],
+    "labels": {
+      "service": "cloudflare"
+    }
+  },
+  {
+    "targets": ["8.8.8.8", "8.8.4.4"],
+    "labels": {
+      "service": "google"
+    }
+  },
+  {
+    "targets": ["9.9.9.9", "149.112.112.112"],
+    "labels": {
+      "service": "quad9"
+    }
+  },
+  {
+    "targets": ["208.67.222.222", "208.67.220.220"],
+    "labels": {
+      "service": "opendns"
+    }
+  },
+  {
+    "targets": ["192.168.1.1", "192.168.1.2"],
+    "labels": {
+      "service": "local"
+    }
+  }
+]
+

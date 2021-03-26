@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  pihole_exporter:
+    container_name: pihole_exporter
+    image: ekofr/pihole-exporter:latest
+    restart: unless-stopped
+    hostname: 'pihole-exporter'
+    environment:
+      - PIHOLE_HOSTNAME=pihole
+      - PIHOLE_PASSWORD=mypassword
+      - PORT=9617
+      - INTERVAL=30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole-exporter.rule=Host(`pihole-exporter.internal.local`)"
+      - "traefik.http.routers.pihole-exporter.entrypoints=web"
+      - 'traefik.http.services.pihole-exporter.loadbalancer.server.port=9617'
+    networks:
+      - web
+networks:
+  web:
+    external: true

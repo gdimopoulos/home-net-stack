@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  blackbox-exporter:
+    container_name: 'blackbox-exporter'
+    image: 'prom/blackbox-exporter:latest'
+    restart: 'unless-stopped'
+    hostname: 'blackbox-exporter'
+    environment:
+      - PORT=9115
+    volumes:
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
+      - './config:/etc/blackbox-exporter:ro'
+    labels:
+      - 'traefik.enable=true'
+      - "traefik.http.routers.blackbox-exporter.rule=Host(`blackbox-exporter.internal.local`)"
+      - "traefik.http.routers.blackbox-exporter.entrypoints=web"
+      - "traefik.http.services.blackbox-exporter.loadbalancer.server.port=9115"
+    networks:
+      - web
+networks:
+  web:
+    external: true

@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  prometheus_speedtest:
+    container_name: prometheus_speedtest
+    image: jraviles/prometheus_speedtest:latest
+    restart: unless-stopped
+    hostname: 'prometheus-speedtest'
+    environment:
+      - PORT=9516
+    networks:
+      - web
+networks:
+  web:
+    external: true

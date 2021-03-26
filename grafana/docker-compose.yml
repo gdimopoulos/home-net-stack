@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+ grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    user: "0"
+    hostname: 'grafana'
+    volumes:
+      - ./lib:/var/lib/grafana
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./provisioning:/etc/grafana/provisioning
+    #environment:
+    #  GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel,grafana-piechart-panel"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.internal.local`)"
+      - "traefik.http.routers.grafana.entrypoints=web"
+    networks:
+      - web
+networks:
+  web:
+    external: true

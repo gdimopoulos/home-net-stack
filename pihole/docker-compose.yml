@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    ports:
+      #- "80:80/tcp"
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: 'Europe/Madrid' # Put your own timezone here.
+      WEBPASSWORD: 'mypass' # Put a strong password here.
+    
+    # We'll use host networking simply because it is way easier to setup.
+    #network_mode: host
+    
+    # Volumes store your data between container upgrades
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    
+    hostname: 'pihole'
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.internal.local`)"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      - "traefik.http.routers.pihole.entrypoints=web"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

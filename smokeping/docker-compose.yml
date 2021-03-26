@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  smokeping:
+    image: ghcr.io/linuxserver/smokeping
+    container_name: smokeping
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    restart: unless-stopped
+    volumes:
+       - ./config:/config
+       - ./data:/data
+    networks:
+      - web
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smokeping.rule=Host(`smokeping.internal.local`)"
+      - "traefik.http.routers.smokeping.entrypoints=web"
+
+networks:
+  web:
+    external: true

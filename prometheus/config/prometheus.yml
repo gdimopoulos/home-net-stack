@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 60s
+
+scrape_configs:
+  # pings endpoints
+  - job_name: 'icmp-ping'
+    scrape_interval: 60s
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    file_sd_configs:
+      - files:
+          - 'icmp-ping.targets.json'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+  # executes a speedtest
+  - job_name: 'prometheus-speedtest'
+    scrape_timeout: 60s
+    metrics_path: /probe
+    static_configs:
+      - targets:
+          - prometheus-speedtest:9516
+  # extracts information from pihole
+  - job_name: 'pihole-exporter'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - pihole-exporter:9617

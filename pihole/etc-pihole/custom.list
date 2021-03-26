@@ -1,0 +1,4 @@
+192.168.1.53 traefik.internal.local
+192.168.1.53 grafana.internal.local
+192.168.1.53 pihole.internal.local
+192.168.1.53 prometheus.internal.local
