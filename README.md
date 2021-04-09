@@ -11,7 +11,19 @@ sudo systemctl disable systemd-resolved.service
 sudo systemctl stop systemd-resolved.service
 ```
 
-Traefik requires to set up a DNS service for the different endpoints. You can use an external provider or you can use pi-hole and add 
+Traefik requires to set up a DNS service for the different endpoints. You can use an external provider or you can use pi-hole and manually map each endpoint to your server's IP address.
+
+To bring the stack up run:
+```bash
+./network_stack.sh up
+```
+
+To bring the stack down run:
+```bash
+./network_stack.sh down
+```
+
+You can add/remove services from the stack by commenting out lines from the list of containers in the `./network_stack.sh` script.
 
 Login for grafana:
 ```bash
